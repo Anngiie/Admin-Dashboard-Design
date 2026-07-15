@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+
+<div id="app" data-theme="light" ref="{{ setApp }}" style="display:flex;min-height:100vh;background:var(--bg);color:var(--text);">
+
+  <aside id="sidebar">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 8px 20px;">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Instrument Serif',serif;font-size:22px;font-style:italic;line-height:1;">M</div>
+      <div style="display:flex;flex-direction:column;line-height:1.1;">
+        <span style="font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:.2px;">Meridian</span>
+        <span style="font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;">Commerce</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <div class="nav-section">
+        <div class="nav-label">Overview</div>
+        <a href="Commerce Console.dc.html" class="nav-item">
+          <i class="iconoir-view-grid"></i> Dashboard
+        </a>
+        <a href="orders.html" class="nav-item">
+          <i class="iconoir-shopping-bag"></i> Orders <span class="badge">12</span>
+        </a>
+        <a href="products.html" class="nav-item">
+          <i class="iconoir-shop"></i> Products
+        </a>
+        <a href="customers.html" class="nav-item">
+          <i class="iconoir-user"></i> Customers
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Insights</div>
+        <a href="analytics.html" class="nav-item">
+          <i class="iconoir-graph-up"></i> Analytics
+        </a>
+        <a href="marketing.html" class="nav-item">
+          <i class="iconoir-megaphone"></i> Marketing
+        </a>
+        <a href="settings.html" class="nav-item active">
+          <i class="iconoir-settings"></i> Settings
+        </a>
+      </div>
+    </div>
+
+    <a href="account.html" class="sidebar-user">
+      <div class="sidebar-user-avatar">AR</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Ava Reyes</div>
+        <div class="sidebar-user-role">Store owner</div>
+      </div>
+      <i class="iconoir-log-out" style="margin-left:auto;font-size:16px;color:var(--muted);"></i>
+    </a>
+  </aside>
+
+  <div id="scrim" onClick="{{ closeNav }}" style="position:fixed;inset:0;background:rgba(20,17,12,.4);z-index:55;"></div>
+
+  <main id="main-content">
+
+    <header class="app-header">
+      <button id="hamburger" onClick="{{ toggleNav }}" aria-label="Menu" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:16px;"><i class="iconoir-menu"></i></button>
+      <div>
+        <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:27px;line-height:1;">Settings</h1>
+        <p style="margin:3px 0 0;font-size:12.5px;color:var(--muted);">Store configuration</p>
+      </div>
+
+      <div id="searchbox" style="margin-left:auto;display:flex;align-items:center;gap:9px;width:280px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);">
+        <i class="iconoir-search" style="font-size:16px;color:var(--muted);"></i>
+        <input placeholder="Search orders, products&#8230;" style="border:0;outline:0;background:transparent;color:var(--text);font-family:inherit;font-size:13.5px;width:100%;"/>
+        <kbd style="font-family:'Space Mono',monospace;font-size:10px;border:1px solid var(--border);border-radius:5px;padding:1px 5px;">&#8984;K</kbd>
+      </div>
+
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+        <i class="iconoir-sun-light theme-sun"></i><i class="iconoir-half-moon theme-moon"></i></button>
+
+      <div class="notif-wrapper" ref="{{ setNotifWrapper }}">
+        <button onClick="{{ toggleNotif }}" aria-label="Notifications" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+          <i class="iconoir-bell"></i><span style="position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;border:2px solid var(--surface);"></span></button>
+        <div class="notif-dropdown" ref="{{ setNotifDropdown }}" style="display:none;">
+          <div class="notif-header">
+            <h3>Notifications</h3>
+            <button class="notif-clear" onClick="{{ clearNotif }}">Mark all read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10482</strong> paid &#8212; $128.40</div>
+                <div class="notif-time">Priya M. &#183; 2 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot orange"></span>
+              <div>
+                <div class="notif-text"><strong>Linen Tote</strong> low stock &#8212; 4 left</div>
+                <div class="notif-time">Inventory &#183; 18 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10481</strong> paid &#8212; $54.00</div>
+                <div class="notif-time">Diego S. &#183; 41 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot muted"></span>
+              <div>
+                <div class="notif-text"><strong>Summer Sale</strong> campaign ended</div>
+                <div class="notif-time">Marketing &#183; 1 hr ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>New review</strong> &#9733;&#9733;&#9733;&#9733;&#9733; on Ceramic Mug</div>
+                <div class="notif-time">Aiko T. &#183; 2 hr ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+      <div class="card">
+        <h3 style="margin:0 0 16px;font-size:16px;font-weight:600;">General</h3>
+        <div class="settings-grid">
+          <div class="form-group">
+            <label class="form-label">Store Name</label>
+            <input class="form-input" value="Meridian Commerce"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Contact Email</label>
+            <input class="form-input" value="hello@meridian.store"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Currency</label>
+            <input class="form-input" value="USD ($)"/>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Timezone</label>
+            <input class="form-input" value="UTC-5 (Eastern)"/>
+          </div>
+        </div>
+        <div class="form-group" style="margin-top:16px;">
+          <label class="form-label">Store Description</label>
+          <textarea class="form-input form-textarea">Handcrafted goods and artisanal products for modern living.</textarea>
+        </div>
+        <div style="margin-top:16px;display:flex;gap:10px;">
+          <button class="btn btn-primary">Save Changes</button>
+          <button class="btn btn-secondary">Cancel</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { theme: 'light', navOpen: false, notifOpen: false };
+
+  componentDidMount(){
+    this._clickOutside = (e)=>{
+      if(this.state.notifOpen && this.notifWrapper && !this.notifWrapper.contains(e.target)){
+        this.setState({notifOpen:false});
+      }
+    };
+    document.addEventListener('click', this._clickOutside, true);
+    this.syncDom();
+  }
+  componentDidUpdate(){ this.syncDom(); }
+  componentWillUnmount(){
+    if(this._clickOutside) document.removeEventListener('click', this._clickOutside, true);
+  }
+
+  syncDom(){
+    if(this.app) this.app.setAttribute('data-theme', this.state.theme);
+    if(this.app) this.app.setAttribute('data-nav', this.state.navOpen ? 'open':'closed');
+    if(this.notifDropdown) this.notifDropdown.style.display = this.state.notifOpen ? 'block' : 'none';
+  }
+
+  renderVals(){
+    return {
+      setApp:(el)=>{ this.app=el; this.wrap=el; },
+      setNotifDropdown:(el)=>{ this.notifDropdown=el; },
+      setNotifWrapper:(el)=>{ this.notifWrapper=el; },
+      toggleTheme:()=>this.setState(s=>({theme:s.theme==='light'?'dark':'light'})),
+      toggleNav:()=>this.setState(s=>({navOpen:!s.navOpen})),
+      closeNav:()=>this.setState({navOpen:false}),
+      toggleNotif:()=>this.setState(s=>({notifOpen:!s.notifOpen})),
+      clearNotif:()=>this.setState({notifOpen:false})
+    };
+  }
+}
+</script>
+</body>
+</html>

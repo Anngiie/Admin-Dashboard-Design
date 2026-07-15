@@ -1,0 +1,305 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+
+<div id="app" data-theme="light" ref="{{ setApp }}" style="display:flex;min-height:100vh;background:var(--bg);color:var(--text);">
+
+  <aside id="sidebar">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 8px 20px;">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Instrument Serif',serif;font-size:22px;font-style:italic;line-height:1;">M</div>
+      <div style="display:flex;flex-direction:column;line-height:1.1;">
+        <span style="font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:.2px;">Meridian</span>
+        <span style="font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;">Commerce</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <div class="nav-section">
+        <div class="nav-label">Overview</div>
+        <a href="Commerce Console.dc.html" class="nav-item">
+          <i class="iconoir-view-grid"></i> Dashboard
+        </a>
+        <a href="orders.html" class="nav-item">
+          <i class="iconoir-shopping-bag"></i> Orders <span class="badge">12</span>
+        </a>
+        <a href="products.html" class="nav-item">
+          <i class="iconoir-shop"></i> Products
+        </a>
+        <a href="customers.html" class="nav-item">
+          <i class="iconoir-user"></i> Customers
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Insights</div>
+        <a href="analytics.html" class="nav-item active">
+          <i class="iconoir-graph-up"></i> Analytics
+        </a>
+        <a href="marketing.html" class="nav-item">
+          <i class="iconoir-megaphone"></i> Marketing
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="iconoir-settings"></i> Settings
+        </a>
+      </div>
+    </div>
+
+    <a href="account.html" class="sidebar-user">
+      <div class="sidebar-user-avatar">AR</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Ava Reyes</div>
+        <div class="sidebar-user-role">Store owner</div>
+      </div>
+      <i class="iconoir-log-out" style="margin-left:auto;font-size:16px;color:var(--muted);"></i>
+    </a>
+  </aside>
+
+  <div id="scrim" onClick="{{ closeNav }}" style="position:fixed;inset:0;background:rgba(20,17,12,.4);z-index:55;"></div>
+
+  <main id="main-content">
+
+    <header class="app-header">
+      <button id="hamburger" onClick="{{ toggleNav }}" aria-label="Menu" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:16px;"><i class="iconoir-menu"></i></button>
+      <div>
+        <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:27px;line-height:1;">Analytics</h1>
+        <p style="margin:3px 0 0;font-size:12.5px;color:var(--muted);">Performance insights</p>
+      </div>
+
+      <div id="searchbox" style="margin-left:auto;display:flex;align-items:center;gap:9px;width:280px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);">
+        <i class="iconoir-search" style="font-size:16px;color:var(--muted);"></i>
+        <input placeholder="Search orders, products&#8230;" style="border:0;outline:0;background:transparent;color:var(--text);font-family:inherit;font-size:13.5px;width:100%;"/>
+        <kbd style="font-family:'Space Mono',monospace;font-size:10px;border:1px solid var(--border);border-radius:5px;padding:1px 5px;">&#8984;K</kbd>
+      </div>
+
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+        <i class="iconoir-sun-light theme-sun"></i><i class="iconoir-half-moon theme-moon"></i></button>
+
+      <div class="notif-wrapper" ref="{{ setNotifWrapper }}">
+        <button onClick="{{ toggleNotif }}" aria-label="Notifications" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+          <i class="iconoir-bell"></i><span style="position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;border:2px solid var(--surface);"></span></button>
+        <div class="notif-dropdown" ref="{{ setNotifDropdown }}" style="display:none;">
+          <div class="notif-header">
+            <h3>Notifications</h3>
+            <button class="notif-clear" onClick="{{ clearNotif }}">Mark all read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10482</strong> paid &#8212; $128.40</div>
+                <div class="notif-time">Priya M. &#183; 2 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot orange"></span>
+              <div>
+                <div class="notif-text"><strong>Linen Tote</strong> low stock &#8212; 4 left</div>
+                <div class="notif-time">Inventory &#183; 18 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10481</strong> paid &#8212; $54.00</div>
+                <div class="notif-time">Diego S. &#183; 41 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot muted"></span>
+              <div>
+                <div class="notif-text"><strong>Summer Sale</strong> campaign ended</div>
+                <div class="notif-time">Marketing &#183; 1 hr ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>New review</strong> &#9733;&#9733;&#9733;&#9733;&#9733; on Ceramic Mug</div>
+                <div class="notif-time">Aiko T. &#183; 2 hr ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top"><span class="kpi-label">Total Customers</span><span class="kpi-badge up">&#9650; 12.4%</span></div>
+          <div class="kpi-value">1,248</div>
+          <div class="kpi-sub">8 new this week</div>
+        </div>
+        <div class="kpi-card" style="animation-delay:.05s">
+          <div class="kpi-top"><span class="kpi-label">Total Products</span><span class="kpi-badge up">&#9650; 3</span></div>
+          <div class="kpi-value">18</div>
+          <div class="kpi-sub">6 with images</div>
+        </div>
+        <div class="kpi-card" style="animation-delay:.1s">
+          <div class="kpi-top"><span class="kpi-label">Total Orders</span><span class="kpi-badge up">&#9650; 8.6%</span></div>
+          <div class="kpi-value">347</div>
+          <div class="kpi-sub">this month</div>
+        </div>
+        <div class="kpi-card" style="animation-delay:.15s">
+          <div class="kpi-top"><span class="kpi-label">Revenue</span><span class="kpi-badge up">&#9650; 14.2%</span></div>
+          <div class="kpi-value">$24,890</div>
+          <div class="kpi-sub">avg order $71.73</div>
+        </div>
+      </section>
+      <div class="mid-grid">
+        <div class="card">
+          <h2>Visitors over time</h2>
+          <p class="card-sub">Daily unique visitors for the past 30 days</p>
+          <div class="chart-wrap" style="height:260px;">
+            <canvas ref="{{ setAnalyticsChart }}"></canvas>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Traffic sources</h2>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px;">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Organic Search</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">42%</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:42%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Direct</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">28%</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:28%;background:var(--green);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Social Media</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">18%</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:18%;background:#5B7FD6;border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Email</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">8%</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:8%;background:#9B6DB0;border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Referral</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">4%</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:4%;background:var(--muted);border-radius:20px;"></div></div></div>
+          </div>
+        </div>
+      </div>
+      <div class="mid-grid" style="margin-top:20px;">
+        <div class="card">
+          <h2>Top selling products</h2>
+          <p class="card-sub">By units sold this month</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px;">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Ceramic Mug Set</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">142 sold</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:100%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Notebook Journal</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">118 sold</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:83%;background:var(--green);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Linen Tote Bag</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">96 sold</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:68%;background:#5B7FD6;border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Scented Candle</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">87 sold</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:61%;background:#9B6DB0;border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Enamel Pin</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">74 sold</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:52%;background:#E8642A;border-radius:20px;"></div></div></div>
+          </div>
+        </div>
+        <div class="card">
+          <h2>Orders by month</h2>
+          <p class="card-sub">Monthly order volume for 2026</p>
+          <div style="display:flex;flex-direction:column;gap:14px;margin-top:16px;">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>January</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">210</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:56%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>February</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">185</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:49%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>March</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">248</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:66%;background:var(--green);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>April</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">290</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:77%;background:var(--green);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>May</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">312</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:83%;background:#5B7FD6;border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>June</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">347</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:93%;background:#5B7FD6;border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>July</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">375</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:100%;background:#9B6DB0;border-radius:20px;"></div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { theme: 'light', navOpen: false, notifOpen: false };
+
+  constructor(props){
+    super(props);
+    this.analyticsHover = -1;
+    this.analyticsData = { labels: Array.from({length:30},(_,i)=> (i%5===0? ('Jul '+(i+1)) : '')), vals: this.genAnalytics() };
+  }
+
+  genAnalytics(){ const a=[]; let v=1400; for(let i=0;i<30;i++){ v += (Math.sin(i*0.5)*200) + (i*15) + (i%4===0?300:0); a.push(Math.round(Math.max(800,v))); } return a; }
+
+  componentDidMount(){
+    this._ro = new ResizeObserver(()=>{ this.drawAnalytics(); });
+    if(this.wrap) this._ro.observe(this.wrap);
+    this._clickOutside = (e)=>{
+      if(this.state.notifOpen && this.notifWrapper && !this.notifWrapper.contains(e.target)){
+        this.setState({notifOpen:false});
+      }
+    };
+    document.addEventListener('click', this._clickOutside, true);
+    this.syncDom();
+    requestAnimationFrame(()=>{ this.drawAnalytics(); });
+  }
+  componentDidUpdate(){ this.syncDom(); }
+  componentWillUnmount(){
+    if(this._ro) this._ro.disconnect();
+    if(this._clickOutside) document.removeEventListener('click', this._clickOutside, true);
+  }
+
+  syncDom(){
+    if(this.app) this.app.setAttribute('data-theme', this.state.theme);
+    if(this.app) this.app.setAttribute('data-nav', this.state.navOpen ? 'open':'closed');
+    if(this.notifDropdown) this.notifDropdown.style.display = this.state.notifOpen ? 'block' : 'none';
+  }
+
+  col(name){ const el = this.wrap || document.documentElement; return getComputedStyle(el).getPropertyValue(name).trim() || '#000'; }
+
+  refAnalytics = (el)=>{ this.analyticsCanvas=el; if(el){ el.onmousemove=(e)=>this.onAnalyticsMove(e); el.onmouseleave=()=>{ this.analyticsHover=-1; this.drawAnalytics(); }; } };
+
+  onAnalyticsMove(e){ const d=this.analyticsData; const r=this.analyticsCanvas.getBoundingClientRect(); const x=e.clientX-r.left; const pl=44,pr=16; const w=r.width-pl-pr; const idx=Math.round((x-pl)/w*(d.vals.length-1)); const ni=Math.max(0,Math.min(d.vals.length-1,idx)); if(ni!==this.analyticsHover){ this.analyticsHover=ni; this.drawAnalytics(); } }
+
+  setupCanvas(canvas){ const r=canvas.getBoundingClientRect(); const dpr=window.devicePixelRatio||1; canvas.width=r.width*dpr; canvas.height=r.height*dpr; const ctx=canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return {ctx,w:r.width,h:r.height}; }
+
+  drawAnalytics(){ const canvas=this.analyticsCanvas; if(!canvas||!canvas.getBoundingClientRect().width) return;
+    const {ctx,w,h}=this.setupCanvas(canvas); ctx.clearRect(0,0,w,h);
+    const d=this.analyticsData; const vals=d.vals; const n=vals.length;
+    const pl=44,pr=16,pt=14,pb=26; const cw=w-pl-pr, ch=h-pt-pb;
+    const max=Math.max(...vals)*1.08, min=Math.min(...vals)*0.9;
+    const accent=this.col('--accent'), muted=this.col('--muted'), hair=this.col('--hair'), surface=this.col('--surface'), text=this.col('--text');
+    const X=i=> pl + (n<=1?0:cw*i/(n-1));
+    const Y=v=> pt + ch - (ch*(v-min)/(max-min));
+    ctx.strokeStyle=hair; ctx.lineWidth=1; ctx.font='10px "Space Mono", monospace'; ctx.fillStyle=muted; ctx.textAlign='right'; ctx.textBaseline='middle';
+    for(let g=0;g<=3;g++){ const gv=min+(max-min)*g/3; const gy=Y(gv); ctx.beginPath(); ctx.moveTo(pl,gy); ctx.lineTo(w-pr,gy); ctx.stroke(); ctx.fillText(Math.round(gv).toLocaleString(), pl-8, gy); }
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    d.labels.forEach((lb,i)=>{ if(lb){ ctx.fillText(lb, X(i), h-pb+8); } });
+    const grad=ctx.createLinearGradient(0,pt,0,pt+ch); grad.addColorStop(0, '#3F7A5A55'); grad.addColorStop(1, '#3F7A5A00');
+    ctx.beginPath(); ctx.moveTo(X(0),Y(vals[0]));
+    for(let i=1;i<n;i++){ ctx.lineTo(X(i),Y(vals[i])); }
+    const lastX=X(n-1); ctx.lineTo(lastX, pt+ch); ctx.lineTo(X(0), pt+ch); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(X(0),Y(vals[0])); for(let i=1;i<n;i++){ ctx.lineTo(X(i),Y(vals[i])); }
+    ctx.strokeStyle='#3F7A5A'; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.lineCap='round'; ctx.stroke();
+    if(this.analyticsHover>=0 && this.analyticsHover<n){ const i=this.analyticsHover; const hx=X(i), hy=Y(vals[i]);
+      ctx.strokeStyle=muted+'66'; ctx.lineWidth=1; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(hx,pt); ctx.lineTo(hx,pt+ch); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(hx,hy,5,0,7); ctx.fillStyle=surface; ctx.fill(); ctx.lineWidth=2.5; ctx.strokeStyle='#3F7A5A'; ctx.stroke();
+      const lbl=d.labels[i]||('#'+(i+1)); const val=vals[i].toLocaleString()+' visitors';
+      ctx.font='700 13px "Space Mono", monospace'; const tw=Math.max(ctx.measureText(val).width, ctx.measureText(lbl).width)+22; const th=42;
+      let bx=hx-tw/2; bx=Math.max(pl,Math.min(w-pr-tw,bx)); let by=hy-th-14; if(by<pt) by=hy+14;
+      ctx.fillStyle=text; this.roundRect(ctx,bx,by,tw,th,8); ctx.fill();
+      ctx.fillStyle=surface; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.font='700 13px "Space Mono", monospace'; ctx.fillText(val,bx+11,by+15);
+      ctx.fillStyle=muted; ctx.font='10px "Space Grotesk", sans-serif'; ctx.fillText(lbl,bx+11,by+30);
+    }
+  }
+
+  roundRect(ctx,x,y,w,h,r){ r=Math.min(r,Math.abs(h)/2,w/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+  renderVals(){
+    return {
+      setApp:(el)=>{ this.app=el; this.wrap=el; },
+      setAnalyticsChart:this.refAnalytics,
+      setNotifDropdown:(el)=>{ this.notifDropdown=el; },
+      setNotifWrapper:(el)=>{ this.notifWrapper=el; },
+      toggleTheme:()=>this.setState(s=>({theme:s.theme==='light'?'dark':'light'}), ()=>{ this.drawAnalytics(); }),
+      toggleNav:()=>this.setState(s=>({navOpen:!s.navOpen})),
+      closeNav:()=>this.setState({navOpen:false}),
+      toggleNotif:()=>this.setState(s=>({notifOpen:!s.notifOpen})),
+      clearNotif:()=>this.setState({notifOpen:false})
+    };
+  }
+}
+</script>
+</body>
+</html>

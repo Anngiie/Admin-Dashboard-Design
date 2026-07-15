@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+
+<div id="app" data-theme="light" ref="{{ setApp }}" style="display:flex;min-height:100vh;background:var(--bg);color:var(--text);">
+
+  <aside id="sidebar">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 8px 20px;">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Instrument Serif',serif;font-size:22px;font-style:italic;line-height:1;">M</div>
+      <div style="display:flex;flex-direction:column;line-height:1.1;">
+        <span style="font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:.2px;">Meridian</span>
+        <span style="font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;">Commerce</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <div class="nav-section">
+        <div class="nav-label">Overview</div>
+        <a href="Commerce Console.dc.html" class="nav-item">
+          <i class="iconoir-view-grid"></i> Dashboard
+        </a>
+        <a href="orders.html" class="nav-item">
+          <i class="iconoir-shopping-bag"></i> Orders <span class="badge">12</span>
+        </a>
+        <a href="products.html" class="nav-item active">
+          <i class="iconoir-shop"></i> Products
+        </a>
+        <a href="customers.html" class="nav-item">
+          <i class="iconoir-user"></i> Customers
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Insights</div>
+        <a href="analytics.html" class="nav-item">
+          <i class="iconoir-graph-up"></i> Analytics
+        </a>
+        <a href="marketing.html" class="nav-item">
+          <i class="iconoir-megaphone"></i> Marketing
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="iconoir-settings"></i> Settings
+        </a>
+      </div>
+    </div>
+
+    <a href="account.html" class="sidebar-user">
+      <div class="sidebar-user-avatar">AR</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Ava Reyes</div>
+        <div class="sidebar-user-role">Store owner</div>
+      </div>
+      <i class="iconoir-log-out" style="margin-left:auto;font-size:16px;color:var(--muted);"></i>
+    </a>
+  </aside>
+
+  <div id="scrim" onClick="{{ closeNav }}" style="position:fixed;inset:0;background:rgba(20,17,12,.4);z-index:55;"></div>
+
+  <main id="main-content">
+
+    <header class="app-header">
+      <button id="hamburger" onClick="{{ toggleNav }}" aria-label="Menu" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:16px;"><i class="iconoir-menu"></i></button>
+      <div>
+        <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:27px;line-height:1;">Products</h1>
+        <p style="margin:3px 0 0;font-size:12.5px;color:var(--muted);">Manage your product catalog</p>
+      </div>
+
+      <div id="searchbox" style="margin-left:auto;display:flex;align-items:center;gap:9px;width:280px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);">
+        <i class="iconoir-search" style="font-size:16px;color:var(--muted);"></i>
+        <input placeholder="Search orders, products&#8230;" style="border:0;outline:0;background:transparent;color:var(--text);font-family:inherit;font-size:13.5px;width:100%;"/>
+        <kbd style="font-family:'Space Mono',monospace;font-size:10px;border:1px solid var(--border);border-radius:5px;padding:1px 5px;">&#8984;K</kbd>
+      </div>
+
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+        <i class="iconoir-sun-light theme-sun"></i><i class="iconoir-half-moon theme-moon"></i></button>
+
+      <div class="notif-wrapper" ref="{{ setNotifWrapper }}">
+        <button onClick="{{ toggleNotif }}" aria-label="Notifications" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+          <i class="iconoir-bell"></i><span style="position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;border:2px solid var(--surface);"></span></button>
+        <div class="notif-dropdown" ref="{{ setNotifDropdown }}" style="display:none;">
+          <div class="notif-header">
+            <h3>Notifications</h3>
+            <button class="notif-clear" onClick="{{ clearNotif }}">Mark all read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10482</strong> paid &#8212; $128.40</div>
+                <div class="notif-time">Priya M. &#183; 2 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot orange"></span>
+              <div>
+                <div class="notif-text"><strong>Linen Tote</strong> low stock &#8212; 4 left</div>
+                <div class="notif-time">Inventory &#183; 18 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10481</strong> paid &#8212; $54.00</div>
+                <div class="notif-time">Diego S. &#183; 41 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot muted"></span>
+              <div>
+                <div class="notif-text"><strong>Summer Sale</strong> campaign ended</div>
+                <div class="notif-time">Marketing &#183; 1 hr ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>New review</strong> &#9733;&#9733;&#9733;&#9733;&#9733; on Ceramic Mug</div>
+                <div class="notif-time">Aiko T. &#183; 2 hr ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+      <div style="display:flex;align-items:center;justify-content:flex-end;">
+        <button class="btn btn-primary" onClick="{{ openAddModal }}">+ Add Product</button>
+      </div>
+      <div class="product-grid" id="product-grid"></div>
+    </div>
+
+    <div id="product-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:400px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.15);">
+        <h2 id="modal-title" style="margin:0 0 20px;font-family:'Instrument Serif',serif;font-weight:400;font-size:22px;">Edit Product</h2>
+        <form id="product-form" style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Name</label>
+            <input id="edit-name" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;"/>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <div style="flex:1;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Price</label>
+              <input id="edit-price" type="number" min="0" step="0.01" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;"/>
+            </div>
+            <div style="flex:1;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Stock</label>
+              <input id="edit-stock" type="number" min="0" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;"/>
+            </div>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:6px;">
+            <button type="button" class="btn" onClick="{{ closeProductModal }}" style="flex:1;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);cursor:pointer;font-size:13.5px;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="flex:1;padding:9px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer;font-size:13.5px;font-weight:600;">Save</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div id="delete-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:360px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.15);text-align:center;">
+        <h2 style="margin:0 0 10px;font-family:'Instrument Serif',serif;font-weight:400;font-size:22px;">Delete Product</h2>
+        <p style="margin:0 0 20px;font-size:13.5px;color:var(--muted);">Are you sure you want to delete <strong id="delete-product-name"></strong>? This cannot be undone.</p>
+        <div style="display:flex;gap:10px;">
+          <button class="btn" onClick="{{ closeDeleteModal }}" style="flex:1;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);cursor:pointer;font-size:13.5px;">Cancel</button>
+          <button class="btn" onClick="{{ confirmDelete }}" style="flex:1;padding:9px;border:none;border-radius:10px;background:#e5484d;color:#fff;cursor:pointer;font-size:13.5px;font-weight:600;">Delete</button>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { theme: 'light', navOpen: false, notifOpen: false, openDropdown: null, editIdx: null, deleteIdx: null };
+  products = [
+    { name: 'Linen Tote Bag', price: 48, stock: 82, img: 'assets/1.jpg', emoji: '&#128092;' },
+    { name: 'Ceramic Mug Set', price: 36, stock: 124, img: 'assets/2.jpg', emoji: '&#9749;' },
+    { name: 'Wool Throw Blanket', price: 89, stock: 45, img: 'assets/3.jpg', emoji: '&#128059;' },
+    { name: 'Scented Candle', price: 24, stock: 210, img: 'assets/4.jpg', emoji: '&#128367;' },
+    { name: 'Enamel Pin', price: 12, stock: 340, img: 'assets/5.jpg', emoji: '&#127912;' },
+    { name: 'Notebook Journal', price: 18, stock: 156, img: 'assets/6.jpg', emoji: '&#128221;' },
+    { name: 'Cotton T-Shirt', price: 28, stock: 200, img: 'assets/7.jpg', emoji: '&#128085;' },
+    { name: 'Wooden Spoon Set', price: 22, stock: 87, img: 'assets/8.jpg', emoji: '&#127860;' },
+    { name: 'Handwoven Basket', price: 54, stock: 32, img: 'assets/9.jpg', emoji: '&#129716;' },
+    { name: 'Stoneware Plate', price: 38, stock: 65, img: 'assets/10.jpg', emoji: '&#127869;' },
+    { name: 'Linen Scarf', price: 34, stock: 110, img: 'assets/11.jpg', emoji: '&#129525;' },
+    { name: 'Brass Candle Holder', price: 42, stock: 28, img: 'assets/12.jpg', emoji: '&#128366;' },
+    { name: 'Ceramic Vase', price: 56, stock: 44, img: 'assets/13.jpg', emoji: '&#127994;' },
+    { name: 'Woven Rug', price: 120, stock: 18, img: 'assets/14.jpg', emoji: '&#128717;' },
+    { name: 'Cotton Throw Pillow', price: 32, stock: 95, img: 'assets/15.jpg', emoji: '&#128168;' },
+    { name: 'Oak Cutting Board', price: 45, stock: 53, img: 'assets/16.jpg', emoji: '&#129683;' },
+    { name: 'Ceramic Planter', price: 29, stock: 76, img: 'assets/17.jpg', emoji: '&#127793;' },
+    { name: 'Linen Apron', price: 36, stock: 62, img: 'assets/18.jpg', emoji: '&#129482;' },
+  ];
+
+  componentDidMount(){
+    this._clickOutside = (e)=>{
+      if(this.state.notifOpen && this.notifWrapper && !this.notifWrapper.contains(e.target)){
+        this.setState({notifOpen:false});
+      }
+      if(this.state.openDropdown !== null && !e.target.closest('.product-actions')){
+        this.setState({openDropdown:null});
+      }
+    };
+    document.addEventListener('click', this._clickOutside, true);
+    this.renderProducts();
+    document.getElementById('product-form').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('edit-name').value.trim();
+      const price = parseFloat(document.getElementById('edit-price').value) || 0;
+      const stock = parseInt(document.getElementById('edit-stock').value) || 0;
+      if(this.state.editIdx === -1){
+        this.products.unshift({ name, price, stock, img: null, emoji: '&#128230;' });
+        this.setState({editIdx:null});
+      } else {
+        this.products[this.state.editIdx].name = name;
+        this.products[this.state.editIdx].price = price;
+        this.products[this.state.editIdx].stock = stock;
+        this.setState({editIdx:null});
+      }
+    });
+  }
+  componentDidUpdate(){ this.syncDom(); }
+  componentWillUnmount(){
+    if(this._clickOutside) document.removeEventListener('click', this._clickOutside, true);
+  }
+
+  renderProducts(){
+    const grid = document.getElementById('product-grid');
+    grid.innerHTML = this.products.map((p, i) => {
+      const imgHtml = p.img
+        ? `<img src="${p.img}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;border-radius:12px;"/>`
+        : p.emoji;
+      const bgStyle = p.img ? 'background:var(--bg);' : `background:linear-gradient(135deg,#E8D5B7,#F0E4CE);`;
+      return `<div class="product-card" style="position:relative;">
+        <div class="product-img" style="${bgStyle}">${imgHtml}</div>
+        <div class="product-actions" style="position:absolute;top:10px;right:10px;">
+          <button class="ellipsis-btn" onclick="window._prodComp.setState({openDropdown:${this.state.openDropdown===i?null:i}})" style="width:30px;height:30px;border-radius:8px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:16px;opacity:0;transition:opacity .2s;">&#8943;</button>
+          <div class="ellipsis-dropdown" style="display:${this.state.openDropdown===i?'block':'none'};position:absolute;top:36px;right:0;background:var(--surface);border:1px solid var(--border);border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,.12);min-width:130px;z-index:10;overflow:hidden;">
+            <button onclick="window._prodComp.setState({editIdx:${i},openDropdown:null})" style="display:block;width:100%;padding:9px 14px;border:0;background:transparent;color:var(--text);font-size:13px;cursor:pointer;text-align:left;">Edit</button>
+            <button onclick="window._prodComp.setState({deleteIdx:${i},openDropdown:null})" style="display:block;width:100%;padding:9px 14px;border:0;background:transparent;color:#e5484d;font-size:13px;cursor:pointer;text-align:left;">Delete</button>
+          </div>
+        </div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-price">$${p.price.toFixed(2)}</div>
+        <div class="product-stock">${p.stock} in stock</div>
+      </div>`;
+    }).join('');
+    grid.querySelectorAll('.product-card').forEach(card => {
+      card.addEventListener('mouseenter', ()=>{ card.querySelector('.ellipsis-btn').style.opacity='1'; });
+      card.addEventListener('mouseleave', ()=>{ card.querySelector('.ellipsis-btn').style.opacity='0'; });
+    });
+    const em = document.getElementById('edit-modal');
+    if(em){
+      const idx = this.state.editIdx;
+      if(idx !== null){
+        document.getElementById('edit-name').value = this.products[idx].name;
+        document.getElementById('edit-price').value = this.products[idx].price;
+        document.getElementById('edit-stock').value = this.products[idx].stock;
+      }
+    }
+    const dm = document.getElementById('delete-modal');
+    if(dm && this.state.deleteIdx !== null){
+      document.getElementById('delete-product-name').textContent = this.products[this.state.deleteIdx].name;
+    }
+  }
+
+  syncDom(){
+    if(this.app) this.app.setAttribute('data-theme', this.state.theme);
+    if(this.app) this.app.setAttribute('data-nav', this.state.navOpen ? 'open':'closed');
+    if(this.notifDropdown) this.notifDropdown.style.display = this.state.notifOpen ? 'block' : 'none';
+    const pm = document.getElementById('product-modal');
+    if(pm) pm.style.display = this.state.editIdx !== null ? 'flex' : 'none';
+    const title = document.getElementById('modal-title');
+    if(title) title.textContent = this.state.editIdx === -1 ? 'Add Product' : 'Edit Product';
+    const dm = document.getElementById('delete-modal');
+    if(dm) dm.style.display = this.state.deleteIdx !== null ? 'flex' : 'none';
+    this.renderProducts();
+  }
+
+  renderVals(){
+    return {
+      setApp:(el)=>{ this.app=el; this.wrap=el; },
+      setNotifDropdown:(el)=>{ this.notifDropdown=el; },
+      setNotifWrapper:(el)=>{ this.notifWrapper=el; },
+      toggleTheme:()=>this.setState(s=>({theme:s.theme==='light'?'dark':'light'})),
+      toggleNav:()=>this.setState(s=>({navOpen:!s.navOpen})),
+      closeNav:()=>this.setState({navOpen:false}),
+      toggleNotif:()=>this.setState(s=>({notifOpen:!s.notifOpen})),
+      clearNotif:()=>this.setState({notifOpen:false}),
+      closeProductModal:()=>this.setState({editIdx:null}),
+      openAddModal:()=>this.setState({editIdx:-1}),
+      closeDeleteModal:()=>this.setState({deleteIdx:null}),
+      confirmDelete:()=>{ this.products.splice(this.state.deleteIdx, 1); this.setState({deleteIdx:null}); }
+    };
+  }
+}
+window._prodComp = null;
+</script>
+</body>
+</html>

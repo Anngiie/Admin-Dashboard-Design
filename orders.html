@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+
+<div id="app" data-theme="light" ref="{{ setApp }}" style="display:flex;min-height:100vh;background:var(--bg);color:var(--text);">
+
+  <aside id="sidebar">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 8px 20px;">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Instrument Serif',serif;font-size:22px;font-style:italic;line-height:1;">M</div>
+      <div style="display:flex;flex-direction:column;line-height:1.1;">
+        <span style="font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:.2px;">Meridian</span>
+        <span style="font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;">Commerce</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <div class="nav-section">
+        <div class="nav-label">Overview</div>
+        <a href="Commerce Console.dc.html" class="nav-item">
+          <i class="iconoir-view-grid"></i> Dashboard
+        </a>
+        <a href="orders.html" class="nav-item active">
+          <i class="iconoir-shopping-bag"></i> Orders <span class="badge">12</span>
+        </a>
+        <a href="products.html" class="nav-item">
+          <i class="iconoir-shop"></i> Products
+        </a>
+        <a href="customers.html" class="nav-item">
+          <i class="iconoir-user"></i> Customers
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Insights</div>
+        <a href="analytics.html" class="nav-item">
+          <i class="iconoir-graph-up"></i> Analytics
+        </a>
+        <a href="marketing.html" class="nav-item">
+          <i class="iconoir-megaphone"></i> Marketing
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="iconoir-settings"></i> Settings
+        </a>
+      </div>
+    </div>
+
+    <a href="account.html" class="sidebar-user">
+      <div class="sidebar-user-avatar">AR</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Ava Reyes</div>
+        <div class="sidebar-user-role">Store owner</div>
+      </div>
+      <i class="iconoir-log-out" style="margin-left:auto;font-size:16px;color:var(--muted);"></i>
+    </a>
+  </aside>
+
+  <div id="scrim" onClick="{{ closeNav }}" style="position:fixed;inset:0;background:rgba(20,17,12,.4);z-index:55;"></div>
+
+  <main id="main-content">
+
+    <header class="app-header">
+      <button id="hamburger" onClick="{{ toggleNav }}" aria-label="Menu" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:16px;"><i class="iconoir-menu"></i></button>
+      <div>
+        <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:27px;line-height:1;">Orders</h1>
+        <p style="margin:3px 0 0;font-size:12.5px;color:var(--muted);">Manage and track customer orders</p>
+      </div>
+
+      <div id="searchbox" style="margin-left:auto;display:flex;align-items:center;gap:9px;width:280px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);">
+        <i class="iconoir-search" style="font-size:16px;color:var(--muted);"></i>
+        <input placeholder="Search orders, products&#8230;" style="border:0;outline:0;background:transparent;color:var(--text);font-family:inherit;font-size:13.5px;width:100%;"/>
+        <kbd style="font-family:'Space Mono',monospace;font-size:10px;border:1px solid var(--border);border-radius:5px;padding:1px 5px;">&#8984;K</kbd>
+      </div>
+
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+        <i class="iconoir-sun-light theme-sun"></i><i class="iconoir-half-moon theme-moon"></i></button>
+
+      <div class="notif-wrapper" ref="{{ setNotifWrapper }}">
+        <button onClick="{{ toggleNotif }}" aria-label="Notifications" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+          <i class="iconoir-bell"></i><span style="position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;border:2px solid var(--surface);"></span></button>
+        <div class="notif-dropdown" ref="{{ setNotifDropdown }}" style="display:none;">
+          <div class="notif-header">
+            <h3>Notifications</h3>
+            <button class="notif-clear" onClick="{{ clearNotif }}">Mark all read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10482</strong> paid &#8212; $128.40</div>
+                <div class="notif-time">Priya M. &#183; 2 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot orange"></span>
+              <div>
+                <div class="notif-text"><strong>Linen Tote</strong> low stock &#8212; 4 left</div>
+                <div class="notif-time">Inventory &#183; 18 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10481</strong> paid &#8212; $54.00</div>
+                <div class="notif-time">Diego S. &#183; 41 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot muted"></span>
+              <div>
+                <div class="notif-text"><strong>Summer Sale</strong> campaign ended</div>
+                <div class="notif-time">Marketing &#183; 1 hr ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>New review</strong> &#9733;&#9733;&#9733;&#9733;&#9733; on Ceramic Mug</div>
+                <div class="notif-time">Aiko T. &#183; 2 hr ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+      <div style="display:flex;align-items:center;justify-content:flex-end;">
+        <button class="btn btn-primary" onClick="{{ openModal }}">+ New Order</button>
+      </div>
+      <div class="card" style="padding:0;overflow:hidden;">
+        <table class="data-table">
+          <thead><tr><th>Order</th><th>Customer</th><th>Date</th><th>Items</th><th>Total</th><th>Status</th></tr></thead>
+          <tbody id="orders-body"></tbody>
+        </table>
+        <div id="pagination" style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;border-top:1px solid var(--border);font-size:13px;color:var(--muted);">
+          <span id="pagination-info"></span>
+          <div id="pagination-btns" style="display:flex;gap:6px;"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="order-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:400px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.15);">
+        <h2 style="margin:0 0 20px;font-family:'Instrument Serif',serif;font-weight:400;font-size:22px;">New Order</h2>
+        <form id="order-form" style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Customer</label>
+            <input id="input-customer" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;" placeholder="e.g. Jane D."/>
+          </div>
+          <div style="display:flex;gap:12px;">
+            <div style="flex:1;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Items</label>
+              <input id="input-items" type="number" min="1" value="1" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;"/>
+            </div>
+            <div style="flex:1;">
+              <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Total</label>
+              <input id="input-total" type="number" min="0" step="0.01" value="0" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;"/>
+            </div>
+          </div>
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Date</label>
+            <input id="input-date" type="date" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;"/>
+          </div>
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Status</label>
+            <select id="input-status" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;">
+              <option value="pending">Pending</option>
+              <option value="paid">Paid</option>
+              <option value="shipped">Shipped</option>
+              <option value="cancelled">Cancelled</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:6px;">
+            <button type="button" class="btn" onClick="{{ closeModal }}" style="flex:1;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);cursor:pointer;font-size:13.5px;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="flex:1;padding:9px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer;font-size:13.5px;font-weight:600;">Create Order</button>
+          </div>
+        </form>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { theme: 'light', navOpen: false, notifOpen: false, page: 1, modalOpen: false };
+  perPage = 14;
+  orders = [
+    { id: '#10482', customer: 'Priya M.', date: 'Jul 15, 2026', items: 3, total: '$128.40', status: 'paid' },
+    { id: '#10481', customer: 'Diego S.', date: 'Jul 15, 2026', items: 1, total: '$54.00', status: 'paid' },
+    { id: '#10480', customer: 'Aiko T.', date: 'Jul 14, 2026', items: 5, total: '$212.90', status: 'shipped' },
+    { id: '#10479', customer: 'Liam O.', date: 'Jul 14, 2026', items: 2, total: '$67.00', status: 'pending' },
+    { id: '#10478', customer: 'Sara K.', date: 'Jul 13, 2026', items: 4, total: '$189.50', status: 'shipped' },
+    { id: '#10477', customer: 'Marcus W.', date: 'Jul 13, 2026', items: 1, total: '$32.00', status: 'cancelled' },
+    { id: '#10476', customer: 'Elena V.', date: 'Jul 12, 2026', items: 6, total: '$345.20', status: 'paid' },
+    { id: '#10475', customer: 'James P.', date: 'Jul 12, 2026', items: 2, total: '$78.00', status: 'shipped' },
+    { id: '#10474', customer: 'Nina R.', date: 'Jul 11, 2026', items: 3, total: '$95.30', status: 'paid' },
+    { id: '#10473', customer: 'Oscar F.', date: 'Jul 11, 2026', items: 1, total: '$24.00', status: 'pending' },
+    { id: '#10472', customer: 'Mei L.', date: 'Jul 10, 2026', items: 7, total: '$412.60', status: 'paid' },
+    { id: '#10471', customer: 'Tomás G.', date: 'Jul 10, 2026', items: 2, total: '$56.00', status: 'shipped' },
+    { id: '#10470', customer: 'Ava B.', date: 'Jul 9, 2026', items: 4, total: '$178.25', status: 'paid' },
+    { id: '#10469', customer: 'Ravi S.', date: 'Jul 9, 2026', items: 1, total: '$42.00', status: 'cancelled' },
+    { id: '#10468', customer: 'Clara H.', date: 'Jul 8, 2026', items: 3, total: '$134.80', status: 'shipped' },
+    { id: '#10467', customer: 'Yusuf A.', date: 'Jul 8, 2026', items: 5, total: '$267.50', status: 'paid' },
+    { id: '#10466', customer: 'Ingrid N.', date: 'Jul 7, 2026', items: 2, total: '$89.00', status: 'pending' },
+    { id: '#10465', customer: 'Chen W.', date: 'Jul 7, 2026', items: 1, total: '$19.99', status: 'paid' },
+    { id: '#10464', customer: 'Fatima Z.', date: 'Jul 6, 2026', items: 4, total: '$156.40', status: 'shipped' },
+    { id: '#10463', customer: 'Leo M.', date: 'Jul 6, 2026', items: 3, total: '$112.00', status: 'paid' },
+    { id: '#10462', customer: 'Sofia P.', date: 'Jul 5, 2026', items: 6, total: '$389.70', status: 'paid' },
+    { id: '#10461', customer: 'Derek J.', date: 'Jul 5, 2026', items: 2, total: '$63.50', status: 'cancelled' },
+    { id: '#10460', customer: 'Amara K.', date: 'Jul 4, 2026', items: 1, total: '$28.00', status: 'shipped' },
+    { id: '#10459', customer: 'Nora V.', date: 'Jul 4, 2026', items: 3, total: '$142.30', status: 'paid' },
+    { id: '#10458', customer: 'Hiroshi T.', date: 'Jul 3, 2026', items: 2, total: '$76.00', status: 'pending' },
+    { id: '#10457', customer: 'Isabel C.', date: 'Jul 3, 2026', items: 5, total: '$298.40', status: 'paid' },
+    { id: '#10456', customer: 'Andre D.', date: 'Jul 2, 2026', items: 1, total: '$35.00', status: 'shipped' },
+    { id: '#10455', customer: 'Zara M.', date: 'Jul 2, 2026', items: 4, total: '$187.60', status: 'paid' },
+    { id: '#10454', customer: 'Viktor L.', date: 'Jul 1, 2026', items: 2, total: '$52.00', status: 'cancelled' },
+    { id: '#10453', customer: 'Grace E.', date: 'Jul 1, 2026', items: 6, total: '$324.90', status: 'paid' },
+    { id: '#10452', customer: 'Kai N.', date: 'Jun 30, 2026', items: 3, total: '$119.00', status: 'shipped' },
+    { id: '#10451', customer: 'Petra S.', date: 'Jun 30, 2026', items: 1, total: '$22.50', status: 'pending' },
+  ];
+
+  componentDidMount(){
+    this._clickOutside = (e)=>{
+      if(this.state.notifOpen && this.notifWrapper && !this.notifWrapper.contains(e.target)){
+        this.setState({notifOpen:false});
+      }
+    };
+    document.addEventListener('click', this._clickOutside, true);
+    this.renderTable();
+    document.getElementById('order-form').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const customer = document.getElementById('input-customer').value.trim();
+      const items = parseInt(document.getElementById('input-items').value) || 1;
+      const total = parseFloat(document.getElementById('input-total').value) || 0;
+      const status = document.getElementById('input-status').value;
+      const dateVal = document.getElementById('input-date').value;
+      const d = new Date(dateVal);
+      const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+      const dateStr = months[d.getMonth()] + ' ' + d.getDate() + ', ' + d.getFullYear();
+      const nextId = 10483 + this.orders.length - 23;
+      this.orders.unshift({ id: '#' + nextId, customer, date: dateStr, items, total: '$' + total.toFixed(2), status });
+      this.setState({modalOpen:false, page:1});
+      document.getElementById('order-form').reset();
+    });
+  }
+  componentDidUpdate(){ this.syncDom(); }
+  componentWillUnmount(){
+    if(this._clickOutside) document.removeEventListener('click', this._clickOutside, true);
+  }
+
+  renderTable(){
+    const start = (this.state.page - 1) * this.perPage;
+    const page = this.orders.slice(start, start + this.perPage);
+    const totalPages = Math.ceil(this.orders.length / this.perPage);
+    const tbody = document.getElementById('orders-body');
+    tbody.innerHTML = page.map(o => `<tr><td style="font-weight:600;">${o.id}</td><td>${o.customer}</td><td>${o.date}</td><td>${o.items}</td><td style="font-family:'Space Mono',monospace;">${o.total}</td><td><span class="status ${o.status}">${o.status.charAt(0).toUpperCase()+o.status.slice(1)}</span></td></tr>`).join('');
+    document.getElementById('pagination-info').textContent = `Showing ${start+1}–${Math.min(start+this.perPage, this.orders.length)} of ${this.orders.length}`;
+    const btns = document.getElementById('pagination-btns');
+    let html = '';
+    html += `<button class="btn" style="padding:5px 10px;font-size:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;cursor:pointer;" ${this.state.page===1?'disabled':''} data-page="${this.state.page-1}">Prev</button>`;
+    for(let i=1;i<=totalPages;i++){
+      const active = i===this.state.page;
+      html += `<button class="btn" style="padding:5px 10px;font-size:12px;border:1px solid ${active?'var(--accent)':'var(--border)'};background:${active?'var(--accent)':'var(--surface)'};color:${active?'#fff':'var(--text)'};border-radius:8px;cursor:pointer;" data-page="${i}">${i}</button>`;
+    }
+    html += `<button class="btn" style="padding:5px 10px;font-size:12px;border:1px solid var(--border);background:var(--surface);color:var(--text);border-radius:8px;cursor:pointer;" ${this.state.page===totalPages?'disabled':''} data-page="${this.state.page+1}">Next</button>`;
+    btns.innerHTML = html;
+    btns.querySelectorAll('button').forEach(b => b.addEventListener('click', (e)=>{
+      const p = parseInt(e.target.dataset.page);
+      if(!isNaN(p)) this.setState({page:p});
+    }));
+  }
+
+  syncDom(){
+    if(this.app) this.app.setAttribute('data-theme', this.state.theme);
+    if(this.app) this.app.setAttribute('data-nav', this.state.navOpen ? 'open':'closed');
+    if(this.notifDropdown) this.notifDropdown.style.display = this.state.notifOpen ? 'block' : 'none';
+    const modal = document.getElementById('order-modal');
+    if(modal) modal.style.display = this.state.modalOpen ? 'flex' : 'none';
+    this.renderTable();
+  }
+
+  renderVals(){
+    return {
+      setApp:(el)=>{ this.app=el; this.wrap=el; },
+      setNotifDropdown:(el)=>{ this.notifDropdown=el; },
+      setNotifWrapper:(el)=>{ this.notifWrapper=el; },
+      toggleTheme:()=>this.setState(s=>({theme:s.theme==='light'?'dark':'light'})),
+      toggleNav:()=>this.setState(s=>({navOpen:!s.navOpen})),
+      closeNav:()=>this.setState({navOpen:false}),
+      toggleNotif:()=>this.setState(s=>({notifOpen:!s.notifOpen})),
+      clearNotif:()=>this.setState({notifOpen:false}),
+      openModal:()=>this.setState({modalOpen:true}),
+      closeModal:()=>this.setState({modalOpen:false})
+    };
+  }
+}
+</script>
+</body>
+</html>

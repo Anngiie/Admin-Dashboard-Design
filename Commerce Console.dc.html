@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Space+Grotesk:wght@400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="./styles.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/iconoir-icons/iconoir@main/css/iconoir.css">
+</head>
+<body>
+<x-dc>
+<helmet>
+</helmet>
+
+<div id="app" data-theme="light" ref="{{ setApp }}" style="display:flex;min-height:100vh;background:var(--bg);color:var(--text);">
+
+  <aside id="sidebar">
+    <div style="display:flex;align-items:center;gap:11px;padding:4px 8px 20px;">
+      <div style="width:34px;height:34px;border-radius:10px;background:var(--accent);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Instrument Serif',serif;font-size:22px;font-style:italic;line-height:1;">M</div>
+      <div style="display:flex;flex-direction:column;line-height:1.1;">
+        <span style="font-family:'Instrument Serif',serif;font-size:20px;letter-spacing:.2px;">Meridian</span>
+        <span style="font-size:11px;color:var(--muted);letter-spacing:.14em;text-transform:uppercase;">Commerce</span>
+      </div>
+    </div>
+
+    <div class="nav-links">
+      <div class="nav-section">
+        <div class="nav-label">Overview</div>
+        <a href="Commerce Console.dc.html" class="nav-item active">
+          <i class="iconoir-view-grid"></i> Dashboard
+        </a>
+        <a href="orders.html" class="nav-item">
+          <i class="iconoir-shopping-bag"></i> Orders <span class="badge">12</span>
+        </a>
+        <a href="products.html" class="nav-item">
+          <i class="iconoir-shop"></i> Products
+        </a>
+        <a href="customers.html" class="nav-item">
+          <i class="iconoir-user"></i> Customers
+        </a>
+      </div>
+
+      <div class="nav-section">
+        <div class="nav-label">Insights</div>
+        <a href="analytics.html" class="nav-item">
+          <i class="iconoir-graph-up"></i> Analytics
+        </a>
+        <a href="marketing.html" class="nav-item">
+          <i class="iconoir-megaphone"></i> Marketing
+        </a>
+        <a href="settings.html" class="nav-item">
+          <i class="iconoir-settings"></i> Settings
+        </a>
+      </div>
+    </div>
+
+    <a href="account.html" class="sidebar-user">
+      <div class="sidebar-user-avatar">AR</div>
+      <div class="sidebar-user-info">
+        <div class="sidebar-user-name">Ava Reyes</div>
+        <div class="sidebar-user-role">Store owner</div>
+      </div>
+      <i class="iconoir-log-out" style="margin-left:auto;font-size:16px;color:var(--muted);"></i>
+    </a>
+  </aside>
+
+  <div id="scrim" onClick="{{ closeNav }}" style="position:fixed;inset:0;background:rgba(20,17,12,.4);z-index:55;"></div>
+
+  <main id="main-content">
+
+    <header class="app-header">
+      <button id="hamburger" onClick="{{ toggleNav }}" aria-label="Menu" style="width:38px;height:38px;border-radius:10px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;align-items:center;justify-content:center;font-size:16px;"><i class="iconoir-menu"></i></button>
+      <div>
+        <h1 style="margin:0;font-family:'Instrument Serif',serif;font-weight:400;font-size:27px;line-height:1;">Good afternoon, Ava</h1>
+        <p style="margin:3px 0 0;font-size:12.5px;color:var(--muted);">Tuesday, July 15 &#183; Store is <span style="color:var(--green);font-weight:600;">live</span></p>
+      </div>
+
+      <div id="searchbox" style="margin-left:auto;display:flex;align-items:center;gap:9px;width:280px;padding:9px 14px;background:var(--surface);border:1px solid var(--border);border-radius:12px;color:var(--muted);">
+        <i class="iconoir-search" style="font-size:16px;color:var(--muted);"></i>
+        <input placeholder="Search orders, products&#8230;" style="border:0;outline:0;background:transparent;color:var(--text);font-family:inherit;font-size:13.5px;width:100%;"/>
+        <kbd style="font-family:'Space Mono',monospace;font-size:10px;border:1px solid var(--border);border-radius:5px;padding:1px 5px;">&#8984;K</kbd>
+      </div>
+
+      <button onClick="{{ toggleTheme }}" aria-label="Toggle theme" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+        <i class="iconoir-sun-light theme-sun"></i><i class="iconoir-half-moon theme-moon"></i></button>
+
+      <div class="notif-wrapper" ref="{{ setNotifWrapper }}">
+        <button onClick="{{ toggleNotif }}" aria-label="Notifications" style="width:40px;height:40px;border-radius:11px;border:1px solid var(--border);background:var(--surface);color:var(--text);cursor:pointer;font-size:16px;flex:0 0 auto;">
+          <i class="iconoir-bell"></i><span style="position:absolute;top:9px;right:10px;width:8px;height:8px;border-radius:50%;background:var(--accent);animation:pulse 2s infinite;border:2px solid var(--surface);"></span></button>
+        <div class="notif-dropdown" ref="{{ setNotifDropdown }}" style="display:none;">
+          <div class="notif-header">
+            <h3>Notifications</h3>
+            <button class="notif-clear" onClick="{{ clearNotif }}">Mark all read</button>
+          </div>
+          <div class="notif-list">
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10482</strong> paid &#8212; $128.40</div>
+                <div class="notif-time">Priya M. &#183; 2 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot orange"></span>
+              <div>
+                <div class="notif-text"><strong>Linen Tote</strong> low stock &#8212; 4 left</div>
+                <div class="notif-time">Inventory &#183; 18 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>Order #10481</strong> paid &#8212; $54.00</div>
+                <div class="notif-time">Diego S. &#183; 41 min ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot muted"></span>
+              <div>
+                <div class="notif-text"><strong>Summer Sale</strong> campaign ended</div>
+                <div class="notif-time">Marketing &#183; 1 hr ago</div>
+              </div>
+            </div>
+            <div class="notif-item">
+              <span class="notif-dot green"></span>
+              <div>
+                <div class="notif-text"><strong>New review</strong> &#9733;&#9733;&#9733;&#9733;&#9733; on Ceramic Mug</div>
+                <div class="notif-time">Aiko T. &#183; 2 hr ago</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <div class="page">
+      <section class="kpi-grid">
+        <div class="kpi-card">
+          <div class="kpi-top"><span class="kpi-label">Revenue</span><span class="kpi-badge up">&#9650; 12.4%</span></div>
+          <div class="kpi-value">$84,320</div>
+          <div class="kpi-sub">vs $75,020 last period</div>
+        </div>
+        <div class="kpi-card" style="animation-delay:.05s">
+          <div class="kpi-top"><span class="kpi-label">Orders</span><span class="kpi-badge up">&#9650; 8.1%</span></div>
+          <div class="kpi-value">1,942</div>
+          <div class="kpi-sub">146 awaiting fulfilment</div>
+        </div>
+        <div class="kpi-card" style="animation-delay:.1s">
+          <div class="kpi-top"><span class="kpi-label">Avg order value</span><span class="kpi-badge down">&#9660; 2.3%</span></div>
+          <div class="kpi-value">$43.42</div>
+          <div class="kpi-sub">down $1.02 from last week</div>
+        </div>
+        <div class="kpi-card" style="animation-delay:.15s">
+          <div class="kpi-top"><span class="kpi-label">Conversion</span><span class="kpi-badge up">&#9650; 0.6%</span></div>
+          <div class="kpi-value">3.84%</div>
+          <div class="kpi-sub">of 50.6k sessions</div>
+        </div>
+      </section>
+
+      <section class="mid-grid">
+        <div class="card">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:12px;flex-wrap:wrap;">
+            <div>
+              <h2>Revenue trend</h2>
+              <p class="card-sub">Gross sales across the selected window</p>
+            </div>
+            <div id="rangebar" ref="{{ setRangeBar }}" data-range="30d" style="display:flex;gap:4px;background:var(--surface-2);border:1px solid var(--border);border-radius:11px;padding:4px;">
+              <button data-r="7d" onClick="{{ r7 }}" style="border:0;background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;">7D</button>
+              <button data-r="30d" onClick="{{ r30 }}" style="border:0;background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;">30D</button>
+              <button data-r="12m" onClick="{{ r12 }}" style="border:0;background:transparent;color:var(--muted);font-family:inherit;font-size:12.5px;font-weight:600;padding:6px 12px;border-radius:8px;cursor:pointer;">12M</button>
+            </div>
+          </div>
+          <div class="chart-wrap">
+            <canvas ref="{{ setArea }}"></canvas>
+          </div>
+        </div>
+
+        <div class="card" style="display:flex;flex-direction:column;">
+          <div style="display:flex;align-items:center;justify-content:space-between;">
+            <h2>Activity</h2>
+            <span style="font-size:11px;color:var(--green);display:inline-flex;align-items:center;gap:5px;"><span style="width:7px;height:7px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;"></span>live</span>
+          </div>
+          <div style="margin-top:16px;display:flex;flex-direction:column;">
+            <div style="display:flex;gap:12px;padding-bottom:16px;position:relative;">
+              <div style="display:flex;flex-direction:column;align-items:center;"><span style="width:10px;height:10px;border-radius:50%;background:var(--green);flex:0 0 auto;margin-top:3px;"></span><span style="flex:1;width:2px;background:var(--hair);margin-top:4px;"></span></div>
+              <div style="min-width:0;"><div style="font-size:13.5px;"><b>Order #10482</b> paid &#8212; $128.40</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Priya M. &#183; 2 min ago</div></div>
+            </div>
+            <div style="display:flex;gap:12px;padding-bottom:16px;position:relative;">
+              <div style="display:flex;flex-direction:column;align-items:center;"><span style="width:10px;height:10px;border-radius:50%;background:var(--accent);flex:0 0 auto;margin-top:3px;"></span><span style="flex:1;width:2px;background:var(--hair);margin-top:4px;"></span></div>
+              <div style="min-width:0;"><div style="font-size:13.5px;"><b>Linen Tote</b> low stock &#8212; 4 left</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Inventory &#183; 18 min ago</div></div>
+            </div>
+            <div style="display:flex;gap:12px;padding-bottom:16px;position:relative;">
+              <div style="display:flex;flex-direction:column;align-items:center;"><span style="width:10px;height:10px;border-radius:50%;background:var(--green);flex:0 0 auto;margin-top:3px;"></span><span style="flex:1;width:2px;background:var(--hair);margin-top:4px;"></span></div>
+              <div style="min-width:0;"><div style="font-size:13.5px;"><b>Order #10481</b> paid &#8212; $54.00</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Diego S. &#183; 41 min ago</div></div>
+            </div>
+            <div style="display:flex;gap:12px;padding-bottom:16px;position:relative;">
+              <div style="display:flex;flex-direction:column;align-items:center;"><span style="width:10px;height:10px;border-radius:50%;background:var(--muted);flex:0 0 auto;margin-top:3px;"></span><span style="flex:1;width:2px;background:var(--hair);margin-top:4px;"></span></div>
+              <div style="min-width:0;"><div style="font-size:13.5px;"><b>Summer Sale</b> campaign ended</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Marketing &#183; 1 hr ago</div></div>
+            </div>
+            <div style="display:flex;gap:12px;">
+              <div style="display:flex;flex-direction:column;align-items:center;"><span style="width:10px;height:10px;border-radius:50%;background:var(--green);flex:0 0 auto;margin-top:3px;"></span></div>
+              <div style="min-width:0;"><div style="font-size:13.5px;"><b>New review</b> &#9733;&#9733;&#9733;&#9733;&#9733; on Ceramic Mug</div><div style="font-size:11.5px;color:var(--muted);margin-top:2px;">Aiko T. &#183; 2 hr ago</div></div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="bot-grid">
+        <div class="card">
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;">
+            <div>
+              <h2>Sales by category</h2>
+              <p class="card-sub">Units sold this month</p>
+            </div>
+          </div>
+          <div class="chart-wrap" style="height:250px;">
+            <canvas ref="{{ setBar }}"></canvas>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 style="margin:0 0 4px;">Top products</h2>
+          <div style="display:flex;flex-direction:column;gap:15px;margin-top:14px;">
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Linen Tote Bag</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">$12,480</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:92%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Ceramic Mug Set</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">$9,210</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:68%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Wool Throw Blanket</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">$7,640</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:56%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Scented Candle</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">$5,120</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:38%;background:var(--accent);border-radius:20px;"></div></div></div>
+            <div><div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px;"><span>Enamel Pin</span><span style="font-family:'Space Mono',monospace;color:var(--muted);">$3,300</span></div><div style="height:7px;background:var(--surface-2);border-radius:20px;overflow:hidden;"><div style="height:100%;width:24%;background:var(--accent);border-radius:20px;"></div></div></div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+  </main>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820}}">
+class Component extends DCLogic {
+  state = { theme: 'light', range: '30d', navOpen: false, notifOpen: false };
+
+  constructor(props){
+    super(props);
+    this.areaProgress = 1;
+    this.areaHover = -1;
+    this.barHover = -1;
+    this.data = {
+      '7d': { labels:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], vals:[9200,11400,10600,13800,12900,16200,15100] },
+      '30d': { labels: Array.from({length:30},(_,i)=> (i%5===0? ('D'+(i+1)) : '')), vals: this.genMonth() },
+      '12m': { labels:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'], vals:[52,58,49,63,71,68,84,79,88,92,97,105].map(v=>v*1000) }
+    };
+    this.bars = { labels:['Apparel','Electro','Home','Beauty','Sports','Toys'], vals:[820,540,690,470,380,260] };
+  }
+
+  genMonth(){ const a=[]; let v=4200; for(let i=0;i<30;i++){ v += (Math.sin(i*0.7)*900) + (i*70) + (i%6===0?1400:0); a.push(Math.round(Math.max(2600,v))); } return a; }
+
+  componentDidMount(){
+    this._ro = new ResizeObserver(()=>{ this.drawArea(); this.drawBar(); });
+    if(this.wrap) this._ro.observe(this.wrap);
+    this._clickOutside = (e)=>{
+      if(this.state.notifOpen && this.notifWrapper && !this.notifWrapper.contains(e.target)){
+        this.setState({notifOpen:false});
+      }
+    };
+    document.addEventListener('click', this._clickOutside, true);
+    this.syncDom();
+    requestAnimationFrame(()=>{ this.animateArea(); this.drawBar(); });
+  }
+  componentDidUpdate(){ this.syncDom(); }
+  componentWillUnmount(){
+    if(this._ro) this._ro.disconnect();
+    if(this._clickOutside) document.removeEventListener('click', this._clickOutside, true);
+  }
+
+  syncDom(){
+    if(this.app) this.app.setAttribute('data-theme', this.state.theme);
+    if(this.app) this.app.setAttribute('data-nav', this.state.navOpen ? 'open':'closed');
+    if(this.rangeBar) this.rangeBar.setAttribute('data-range', this.state.range);
+    if(this.notifDropdown) this.notifDropdown.style.display = this.state.notifOpen ? 'block' : 'none';
+  }
+
+  col(name){ const el = this.wrap || document.documentElement; return getComputedStyle(el).getPropertyValue(name).trim() || '#000'; }
+
+  refArea = (el)=>{ this.areaCanvas=el; if(el){ el.onmousemove=(e)=>this.onAreaMove(e); el.onmouseleave=()=>{ this.areaHover=-1; this.drawArea(); }; } };
+  refBar = (el)=>{ this.barCanvas=el; if(el){ el.onmousemove=(e)=>this.onBarMove(e); el.onmouseleave=()=>{ this.barHover=-1; this.drawBar(); }; } };
+
+  onAreaMove(e){ const d=this.data[this.state.range]; const r=this.areaCanvas.getBoundingClientRect(); const x=e.clientX-r.left; const pl=44,pr=16; const w=r.width-pl-pr; const idx=Math.round((x-pl)/w*(d.vals.length-1)); const ni=Math.max(0,Math.min(d.vals.length-1,idx)); if(ni!==this.areaHover){ this.areaHover=ni; this.drawArea(); } }
+  onBarMove(e){ const r=this.barCanvas.getBoundingClientRect(); const x=e.clientX-r.left; const pl=40,pr=12; const n=this.bars.vals.length; const bw=(r.width-pl-pr)/n; let idx=Math.floor((x-pl)/bw); idx=Math.max(0,Math.min(n-1,idx)); if(idx!==this.barHover){ this.barHover=idx; this.drawBar(); } }
+
+  animateArea(){ const start=performance.now(); const dur=650; const step=(t)=>{ let p=Math.min(1,(t-start)/dur); this.areaProgress=1-Math.pow(1-p,3); this.drawArea(); if(p<1) requestAnimationFrame(step); }; requestAnimationFrame(step); }
+
+  fmt(v){ if(v>=1000000) return '$'+(v/1000000).toFixed(2)+'M'; if(v>=1000) return '$'+(v/1000).toFixed(1)+'k'; return '$'+v; }
+
+  setupCanvas(canvas){ const r=canvas.getBoundingClientRect(); const dpr=window.devicePixelRatio||1; canvas.width=r.width*dpr; canvas.height=r.height*dpr; const ctx=canvas.getContext('2d'); ctx.setTransform(dpr,0,0,dpr,0,0); return {ctx,w:r.width,h:r.height}; }
+
+  drawArea(){ const canvas=this.areaCanvas; if(!canvas||!canvas.getBoundingClientRect().width) return;
+    const {ctx,w,h}=this.setupCanvas(canvas); ctx.clearRect(0,0,w,h);
+    const d=this.data[this.state.range]; const vals=d.vals; const n=vals.length;
+    const pl=44,pr=16,pt=14,pb=26; const cw=w-pl-pr, ch=h-pt-pb;
+    const max=Math.max(...vals)*1.08, min=Math.min(...vals)*0.9;
+    const accent=this.col('--accent'), muted=this.col('--muted'), hair=this.col('--hair'), surface=this.col('--surface'), text=this.col('--text');
+    const X=i=> pl + (n<=1?0:cw*i/(n-1));
+    const Y=v=> pt + ch - (ch*(v-min)/(max-min));
+    ctx.strokeStyle=hair; ctx.lineWidth=1; ctx.font='10px "Space Mono", monospace'; ctx.fillStyle=muted; ctx.textAlign='right'; ctx.textBaseline='middle';
+    for(let g=0;g<=3;g++){ const gv=min+(max-min)*g/3; const gy=Y(gv); ctx.beginPath(); ctx.moveTo(pl,gy); ctx.lineTo(w-pr,gy); ctx.stroke(); ctx.fillText(this.fmt(Math.round(gv/1000)*1000).replace('$',''), pl-8, gy); }
+    ctx.textAlign='center'; ctx.textBaseline='top';
+    d.labels.forEach((lb,i)=>{ if(lb){ ctx.fillText(lb, X(i), h-pb+8); } });
+    const prog=this.areaProgress; const visN=Math.max(1,Math.floor((n-1)*prog)+1);
+    const grad=ctx.createLinearGradient(0,pt,0,pt+ch); grad.addColorStop(0, accent+'55'); grad.addColorStop(1, accent+'00');
+    ctx.beginPath(); ctx.moveTo(X(0),Y(vals[0]));
+    for(let i=1;i<visN;i++){ ctx.lineTo(X(i),Y(vals[i])); }
+    const lastX=X(visN-1); ctx.lineTo(lastX, pt+ch); ctx.lineTo(X(0), pt+ch); ctx.closePath(); ctx.fillStyle=grad; ctx.fill();
+    ctx.beginPath(); ctx.moveTo(X(0),Y(vals[0])); for(let i=1;i<visN;i++){ ctx.lineTo(X(i),Y(vals[i])); }
+    ctx.strokeStyle=accent; ctx.lineWidth=2.5; ctx.lineJoin='round'; ctx.lineCap='round'; ctx.stroke();
+    if(prog>=1 && this.areaHover>=0 && this.areaHover<n){ const i=this.areaHover; const hx=X(i), hy=Y(vals[i]);
+      ctx.strokeStyle=muted+'66'; ctx.lineWidth=1; ctx.setLineDash([3,3]); ctx.beginPath(); ctx.moveTo(hx,pt); ctx.lineTo(hx,pt+ch); ctx.stroke(); ctx.setLineDash([]);
+      ctx.beginPath(); ctx.arc(hx,hy,5,0,7); ctx.fillStyle=surface; ctx.fill(); ctx.lineWidth=2.5; ctx.strokeStyle=accent; ctx.stroke();
+      const lbl=d.labels[i]||('#'+(i+1)); const val=this.fmt(vals[i]);
+      ctx.font='700 13px "Space Mono", monospace'; const tw=Math.max(ctx.measureText(val).width, ctx.measureText(lbl).width)+22; const th=42;
+      let bx=hx-tw/2; bx=Math.max(pl,Math.min(w-pr-tw,bx)); let by=hy-th-14; if(by<pt) by=hy+14;
+      ctx.fillStyle=text; this.roundRect(ctx,bx,by,tw,th,8); ctx.fill();
+      ctx.fillStyle=surface; ctx.textAlign='left'; ctx.textBaseline='middle'; ctx.font='700 13px "Space Mono", monospace'; ctx.fillText(val,bx+11,by+15);
+      ctx.fillStyle=muted; ctx.font='10px "Space Grotesk", sans-serif'; ctx.fillText(lbl,bx+11,by+30);
+    }
+  }
+
+  drawBar(){ const canvas=this.barCanvas; if(!canvas||!canvas.getBoundingClientRect().width) return;
+    const {ctx,w,h}=this.setupCanvas(canvas); ctx.clearRect(0,0,w,h);
+    const vals=this.bars.vals, labels=this.bars.labels, n=vals.length;
+    const pl=40,pr=12,pt=10,pb=26; const cw=w-pl-pr, ch=h-pt-pb; const max=Math.max(...vals)*1.12;
+    const accent=this.col('--accent'), muted=this.col('--muted'), hair=this.col('--hair'), text=this.col('--text'), surface=this.col('--surface');
+    ctx.strokeStyle=hair; ctx.lineWidth=1; ctx.font='10px "Space Mono", monospace'; ctx.fillStyle=muted; ctx.textAlign='right'; ctx.textBaseline='middle';
+    for(let g=0;g<=3;g++){ const gv=max*g/3; const gy=pt+ch-ch*g/3; ctx.beginPath(); ctx.moveTo(pl,gy); ctx.lineTo(w-pr,gy); ctx.stroke(); ctx.fillText(Math.round(gv), pl-8, gy); }
+    const slot=cw/n; const bw=Math.min(46, slot*0.56);
+    ctx.textAlign='center';
+    for(let i=0;i<n;i++){ const bx=pl+slot*i+slot/2-bw/2; const bh=ch*vals[i]/max; const by=pt+ch-bh; const hovered=i===this.barHover;
+      ctx.fillStyle= hovered? accent : accent+'B0'; this.roundRect(ctx,bx,by,bw,bh,6); ctx.fill();
+      ctx.fillStyle=muted; ctx.textBaseline='top'; ctx.font='11px "Space Grotesk", sans-serif'; ctx.fillText(labels[i], bx+bw/2, h-pb+8);
+      if(hovered){ const val=vals[i]+' units'; ctx.font='700 12px "Space Mono", monospace'; const tw=ctx.measureText(val).width+18, th=26; let tx=bx+bw/2-tw/2; tx=Math.max(pl,Math.min(w-pr-tw,tx)); let ty=by-th-8; if(ty<pt)ty=by+6; ctx.fillStyle=text; this.roundRect(ctx,tx,ty,tw,th,7); ctx.fill(); ctx.fillStyle=surface; ctx.textBaseline='middle'; ctx.fillText(val, tx+tw/2, ty+th/2); }
+    }
+  }
+
+  roundRect(ctx,x,y,w,h,r){ r=Math.min(r,Math.abs(h)/2,w/2); ctx.beginPath(); ctx.moveTo(x+r,y); ctx.arcTo(x+w,y,x+w,y+h,r); ctx.arcTo(x+w,y+h,x,y+h,r); ctx.arcTo(x,y+h,x,y,r); ctx.arcTo(x,y,x+w,y,r); ctx.closePath(); }
+
+  setRange(r){ this.setState({range:r}, ()=>{ this.areaHover=-1; this.animateArea(); }); }
+
+  renderVals(){
+    return {
+      setApp:(el)=>{ this.app=el; this.wrap=el; },
+      setArea:this.refArea,
+      setBar:this.refBar,
+      setRangeBar:(el)=>{ this.rangeBar=el; },
+      setNotifDropdown:(el)=>{ this.notifDropdown=el; },
+      setNotifWrapper:(el)=>{ this.notifWrapper=el; },
+      toggleTheme:()=>{ this.setState(s=>({theme:s.theme==='light'?'dark':'light'}), ()=>{ this.drawArea(); this.drawBar(); }); },
+      toggleNav:()=>this.setState(s=>({navOpen:!s.navOpen})),
+      closeNav:()=>this.setState({navOpen:false}),
+      r7:()=>this.setRange('7d'),
+      r30:()=>this.setRange('30d'),
+      r12:()=>this.setRange('12m'),
+      toggleNotif:()=>this.setState(s=>({notifOpen:!s.notifOpen})),
+      clearNotif:()=>this.setState({notifOpen:false})
+    };
+  }
+}
+</script>
+</body>
+</html>
