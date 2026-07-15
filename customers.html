@@ -154,7 +154,7 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820}}">
 class Component extends DCLogic {
   state = { theme: 'light', navOpen: false, notifOpen: false, page: 1 };
-  perPage = 5;
+  perPage = 8;
   customers = [
     { name: 'Priya Mehta', email: 'priya@example.com', orders: 24, status: 'Active', initials: 'PM', gradient: '#E8642A,#E8A24A' },
     { name: 'Diego Santos', email: 'diego@example.com', orders: 18, status: 'Active', initials: 'DS', gradient: '#3F7A5A,#6FB58C' },
@@ -164,6 +164,18 @@ class Component extends DCLogic {
     { name: 'Marcus Webb', email: 'marcus@example.com', orders: 3, status: 'Inactive', initials: 'MW', gradient: '#726D62,#A09A90' },
     { name: 'Elena Vasquez', email: 'elena@example.com', orders: 15, status: 'Active', initials: 'EV', gradient: '#D65B5B,#E88B8B' },
     { name: 'James Park', email: 'james@example.com', orders: 9, status: 'Active', initials: 'JP', gradient: '#5BD6A0,#8BE8C4' },
+    { name: 'Nina Richter', email: 'nina@example.com', orders: 21, status: 'Active', initials: 'NR', gradient: '#D6A05B,#E8C48B' },
+    { name: 'Oscar Fernandez', email: 'oscar@example.com', orders: 5, status: 'Inactive', initials: 'OF', gradient: '#5B8DD6,#8BB0E8' },
+    { name: 'Mei Chen', email: 'mei@example.com', orders: 37, status: 'Active', initials: 'MC', gradient: '#D65BA0,#E88BC4' },
+    { name: 'Tomás Garcia', email: 'tomas@example.com', orders: 12, status: 'Active', initials: 'TG', gradient: '#6BD65B,#9BE88B' },
+    { name: 'Ava Bennett', email: 'ava@example.com', orders: 28, status: 'Active', initials: 'AB', gradient: '#A05BD6,#C48BE8' },
+    { name: 'Ravi Sharma', email: 'ravi@example.com', orders: 4, status: 'Inactive', initials: 'RS', gradient: '#D65B5B,#E88B8B' },
+    { name: 'Clara Hoffmann', email: 'clara@example.com', orders: 19, status: 'Active', initials: 'CH', gradient: '#5BD6C4,#8BE8D8' },
+    { name: 'Yusuf Ali', email: 'yusuf@example.com', orders: 33, status: 'Active', initials: 'YA', gradient: '#D6A85B,#E8C88B' },
+    { name: 'Ingrid Nielsen', email: 'ingrid@example.com', orders: 8, status: 'Inactive', initials: 'IN', gradient: '#5B6ED6,#8B9EE8' },
+    { name: 'Chen Wei', email: 'chen@example.com', orders: 16, status: 'Active', initials: 'CW', gradient: '#D65BD6,#E88BE8' },
+    { name: 'Fatima Zahra', email: 'fatima@example.com', orders: 26, status: 'Active', initials: 'FZ', gradient: '#8BD65B,#B0E88B' },
+    { name: 'Leo Müller', email: 'leo@example.com', orders: 11, status: 'Active', initials: 'LM', gradient: '#5BD68B,#8BE8B0' },
   ];
 
   componentDidMount(){
