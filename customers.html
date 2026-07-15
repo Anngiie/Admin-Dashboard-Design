@@ -138,12 +138,39 @@
 
     <div class="page">
       <div style="display:flex;align-items:center;justify-content:flex-end;">
-        <button class="btn btn-primary">+ Add Customer</button>
+        <button class="btn btn-primary" onClick="{{ openCustomerModal }}">+ Add Customer</button>
       </div>
       <div class="customer-list" id="customer-list"></div>
       <div id="pagination" style="display:flex;align-items:center;justify-content:space-between;padding:12px 18px;font-size:13px;color:var(--muted);">
         <span id="pagination-info"></span>
         <div id="pagination-btns" style="display:flex;gap:6px;"></div>
+      </div>
+    </div>
+
+    <div id="customer-modal" style="display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.4);backdrop-filter:blur(4px);align-items:center;justify-content:center;">
+      <div style="background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:400px;max-width:90vw;box-shadow:0 20px 60px rgba(0,0,0,.15);">
+        <h2 style="margin:0 0 20px;font-family:'Instrument Serif',serif;font-weight:400;font-size:22px;">New Customer</h2>
+        <form id="customer-form" style="display:flex;flex-direction:column;gap:14px;">
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Full Name</label>
+            <input id="input-name" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;" placeholder="e.g. Jane Doe"/>
+          </div>
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Email</label>
+            <input id="input-email" type="email" required style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;" placeholder="e.g. jane@example.com"/>
+          </div>
+          <div>
+            <label style="display:block;font-size:12px;font-weight:600;margin-bottom:4px;color:var(--muted);">Status</label>
+            <select id="input-status" style="width:100%;padding:9px 12px;border:1px solid var(--border);border-radius:10px;background:var(--bg);color:var(--text);font-family:inherit;font-size:13.5px;outline:none;">
+              <option value="Active">Active</option>
+              <option value="Inactive">Inactive</option>
+            </select>
+          </div>
+          <div style="display:flex;gap:10px;margin-top:6px;">
+            <button type="button" class="btn" onClick="{{ closeCustomerModal }}" style="flex:1;padding:9px;border:1px solid var(--border);border-radius:10px;background:var(--surface);color:var(--text);cursor:pointer;font-size:13.5px;">Cancel</button>
+            <button type="submit" class="btn btn-primary" style="flex:1;padding:9px;border:none;border-radius:10px;background:var(--accent);color:#fff;cursor:pointer;font-size:13.5px;font-weight:600;">Add</button>
+          </div>
+        </form>
       </div>
     </div>
 
@@ -153,7 +180,7 @@
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:820}}">
 class Component extends DCLogic {
-  state = { theme: 'light', navOpen: false, notifOpen: false, page: 1 };
+  state = { theme: 'light', navOpen: false, notifOpen: false, page: 1, modalOpen: false };
   perPage = 8;
   customers = [
     { name: 'Priya Mehta', email: 'priya@example.com', orders: 24, status: 'Active', initials: 'PM', gradient: '#E8642A,#E8A24A' },
@@ -186,6 +213,18 @@ class Component extends DCLogic {
     };
     document.addEventListener('click', this._clickOutside, true);
     this.renderList();
+    document.getElementById('customer-form').addEventListener('submit', (e)=>{
+      e.preventDefault();
+      const name = document.getElementById('input-name').value.trim();
+      const email = document.getElementById('input-email').value.trim();
+      const status = document.getElementById('input-status').value;
+      const initials = name.split(' ').map(w=>w[0]).join('').toUpperCase().slice(0,2);
+      const colors = ['#E8642A,#E8A24A','#3F7A5A,#6FB58C','#5B7FD6,#8BA4E8','#B5462F,#E08163','#9B6DB0,#C49BD8','#726D62,#A09A90','#D65B5B,#E88B8B','#5BD6A0,#8BE8C4'];
+      const gradient = colors[this.customers.length % colors.length];
+      this.customers.unshift({ name, email, orders: 0, status, initials, gradient });
+      this.setState({modalOpen:false, page:1});
+      document.getElementById('customer-form').reset();
+    });
   }
   componentDidUpdate(){ this.syncDom(); }
   componentWillUnmount(){
@@ -231,6 +270,8 @@ class Component extends DCLogic {
     if(this.app) this.app.setAttribute('data-theme', this.state.theme);
     if(this.app) this.app.setAttribute('data-nav', this.state.navOpen ? 'open':'closed');
     if(this.notifDropdown) this.notifDropdown.style.display = this.state.notifOpen ? 'block' : 'none';
+    const cm = document.getElementById('customer-modal');
+    if(cm) cm.style.display = this.state.modalOpen ? 'flex' : 'none';
     this.renderList();
   }
 
@@ -243,7 +284,9 @@ class Component extends DCLogic {
       toggleNav:()=>this.setState(s=>({navOpen:!s.navOpen})),
       closeNav:()=>this.setState({navOpen:false}),
       toggleNotif:()=>this.setState(s=>({notifOpen:!s.notifOpen})),
-      clearNotif:()=>this.setState({notifOpen:false})
+      clearNotif:()=>this.setState({notifOpen:false}),
+      openCustomerModal:()=>this.setState({modalOpen:true}),
+      closeCustomerModal:()=>this.setState({modalOpen:false})
     };
   }
 }
