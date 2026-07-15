@@ -209,8 +209,7 @@ class Component extends DCLogic {
       if(!isNaN(p)) this.setState({page:p});
     }));
   }
-    this.syncDom();
-  }
+
   componentDidUpdate(){ this.syncDom(); }
   componentWillUnmount(){
     if(this._clickOutside) document.removeEventListener('click', this._clickOutside, true);
